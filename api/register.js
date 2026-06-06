@@ -21,10 +21,8 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') return res.status(200).end();
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
 
     const { username, password } = req.body;
-
     if (!username || !password) {
         return res.status(400).json({ error: 'Preencha todos os campos.' });
     }
@@ -36,15 +34,14 @@ module.exports = async (req, res) => {
         const snapshot = await userRef.once('value');
 
         if (snapshot.exists()) {
-            return res.status(400).json({ error: 'Este usuário já está cadastrado.' });
+            return res.status(400).json({ error: 'Este utilizador já existe.' });
         }
 
-        const dadosDoJogadorRetro = {
+        const modeloJogador2018 = {
             username: username,
             password: password,
             criado_em: new Date().toISOString(),
             status_conexao: "Offline",
-            aparelho_atual: "Nenhum",
             customizacao: {
                 nome_colorido: true,
                 codigo_cor: "#FFCC00", 
@@ -54,31 +51,16 @@ module.exports = async (req, res) => {
                 temporada_restrita: "2018",
                 todos_passes_2018_liberados: true,
                 todas_skins_2018_liberadas: true,
-                lista_passes: [
-                    { id: 1, nome: "Flor de Sakura" },
-                    { id: 2, nome: "Hip Hop" },
-                    { id: 3, nome: "Doomsday" },
-                    { id: 4, nome: "Festança Real" },
-                    { id: 5, nome: "Ilha dos Piratas" },
-                    { id: 6, nome: "Desordem Tecnológica" },
-                    { id: 7, nome: "Steampunk" }
-                ],
-                lista_skins: [
-                    { id: 8001, nome: "Calça Angelical Original" },
-                    { id: 8002, nome: "Camisa Gola Alta Preta" },
-                    { id: 8003, nome: "Top Criminal Verde" },
-                    { id: 8004, nome: "Barba do Velho (Máscara Antiga)" },
-                    { id: 8005, nome: "Jaqueta de Veterano" }
-                ],
-                personagens_liberados: ["Andrew", "Kelly", "Olivia", "Ford", "Maxim", "Misha"]
+                todos_personagens_liberados: true,
+                lista_passes: ["Flor de Sakura", "Hip Hop", "Doomsday", "Festança Real", "Ilha dos Piratas", "Desordem Tecnológica", "Steampunk"],
+                lista_skins: ["Calça Angelical Original", "Camisa Gola Alta Preta", "Top Criminal Verde", "Barba do Velho", "Jaqueta de Veterano"],
+                personagens: ["Andrew", "Kelly", "Olivia", "Ford", "Maxim", "Misha"]
             }
         };
 
-        await userRef.set(dadosDoJogadorRetro);
-        return res.status(200).json({ status: 'sucesso', message: 'Conta 2018 configurada com sucesso!' });
-
+        await userRef.set(modeloJogador2018);
+        return res.status(200).json({ status: 'sucesso', message: 'Conta 2018 criada no Firebase!' });
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
 };
-                      
