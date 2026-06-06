@@ -21,7 +21,6 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') return res.status(200).end();
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Use POST' });
 
     const { username, password, device_info } = req.body;
     const sanitizedUser = username.replace(/[\.\#\$\[\]]/g, "").toLowerCase();
@@ -31,19 +30,18 @@ module.exports = async (req, res) => {
         const snapshot = await userRef.once('value');
 
         if (!snapshot.exists()) {
-            return res.status(401).json({ status: 'rejeitado', error: 'Usuário não existente.' });
+            return res.status(401).json({ status: 'rejeitado', error: 'Utilizador não encontrado.' });
         }
 
         const dataUser = snapshot.val();
-
         if (dataUser.password !== password) {
             return res.status(401).json({ status: 'rejeitado', error: 'Senha incorreta.' });
         }
 
-        // Alteração de telemetria em tempo real no Realtime Database
+        // Atualiza a atividade em tempo real no Realtime Database
         await userRef.update({
             status_conexao: "Online",
-            aparelho_atual: device_info || "Dispositivo Android Modificado"
+            aparelho_atual: device_info || "Dispositivo Injetor"
         });
 
         return res.status(200).json({
@@ -51,9 +49,7 @@ module.exports = async (req, res) => {
             perfil: dataUser.customizacao,
             bypass_retro: dataUser.inventario
         });
-
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
 };
-
