@@ -2,9 +2,9 @@
   "version": 2,
   "cleanUrls": true,
   "routes": [
-    { "src": "/api/register", "dest": "/api/register.js", "methods": ["POST", "OPTIONS"] },
-    { "src": "/api/login", "dest": "/api/login.js", "methods": ["POST", "OPTIONS"] },
-    { "src": "/api/game-data", "dest": "/api/game-data.js", "methods": ["GET", "OPTIONS"] },
+    { "src": "/api/register", "dest": "/api/register.js" },
+    { "src": "/api/login", "dest": "/api/login.js" },
+    { "src": "/api/game-data", "dest": "/api/game-data.js" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/public/index.html" }
   ]
