@@ -1,7 +1,6 @@
 {
   "name": "luna-private-server",
   "version": "1.0.0",
-  "description": "Luna Private Server 2018",
   "main": "api/register.js",
   "dependencies": {
     "firebase-admin": "^11.8.0"
