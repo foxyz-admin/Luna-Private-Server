@@ -2,6 +2,7 @@
   "version": 2,
   "cleanUrls": true,
   "routes": [
+    { "src": "/", "dest": "/public/index.html" },
     { "src": "/api/register", "dest": "/api/register.js" },
     { "src": "/api/login", "dest": "/api/login.js" },
     { "src": "/api/game-data", "dest": "/api/game-data.js" },
