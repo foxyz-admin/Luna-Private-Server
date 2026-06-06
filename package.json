@@ -1,7 +1,7 @@
 {
   "name": "luna-private-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "login.js",
   "dependencies": {
     "firebase-admin": "^11.0.0"
   }
