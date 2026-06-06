@@ -1,7 +1,6 @@
 {
   "name": "luna-private-server",
   "version": "1.1.0",
-  "description": "Servidor Serverless Luna System - FF Retro 2018",
   "main": "api/register.js",
   "dependencies": {
     "cors": "^2.8.5",
