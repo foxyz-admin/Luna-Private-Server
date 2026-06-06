@@ -1,93 +1,272 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luna System - Painel Retro 2018</title>
+    <title>Luna Private Server</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            background-color: #050507; color: #f4f4f5;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
         }
-        .box {
-            background: #111115;
-            padding: 40px; border-radius: 16px; border: 1px solid #ffcc00;
-            width: 100%; max-width: 400px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+        /* Animação de fundo */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+            top: -50%;
+            left: -50%;
+            animation: spinBg 20s linear infinite;
+            z-index: 0;
         }
-        h1 { color: #ffcc00; font-size: 2rem; margin-bottom: 8px; letter-spacing: 1px; }
-        p { color: #a1a1aa; font-size: 0.85rem; margin-bottom: 24px; }
-        .group { text-align: left; margin-bottom: 20px; }
-        label { display: block; color: #fff; font-size: 0.8rem; margin-bottom: 6px; text-transform: uppercase; font-weight: bold; }
+
+        @keyframes spinBg {
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: #e2e8f0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem; /* Botões e inputs mais longe uns dos outros */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
         input {
-            width: 100%; padding: 14px; background: #000; border: 1px solid #27272a;
-            border-radius: 8px; color: #fff; font-size: 1rem;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-        input:focus { outline: none; border-color: #ffcc00; }
-        button {
-            width: 100%; padding: 14px; background: #ffcc00; color: #000;
-            border: none; border-radius: 8px; font-size: 1rem; font-weight: bold;
-            cursor: pointer; text-transform: uppercase; margin-top: 10px;
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            background: rgba(15, 23, 42, 0.9);
         }
-        .alert { padding: 12px; border-radius: 6px; margin-bottom: 15px; display: none; font-size: 0.85rem; }
-        .ok { background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid #10b981; }
-        .err { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid #ef4444; }
+
+        .btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: linear-gradient(90deg, #4f46e5, #6366f1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .switch-form a {
+            color: #818cf8;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .switch-form a:hover {
+            color: #a5b4fc;
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; }
+        .success { background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; color: #86efac; }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h1>LUNA SYSTEM</h1>
-        <p>Injetar conta com todas as skins e passes de 2018</p>
-
-        <div class="alert ok" id="ok">✓ Ativado com sucesso no Firebase!</div>
-        <div class="alert err" id="err"></div>
-
-        <form onsubmit="enviar(event)">
-            <div class="group">
-                <label>Utilizador</label>
-                <input type="text" id="u" required autocomplete="off">
+    <div class="container" id="loginBox">
+        <h2>Entrar no Servidor</h2>
+        <div class="message error" id="loginError"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Usuário</label>
+                <input type="text" id="loginUser" required autocomplete="off">
             </div>
-            <div class="group">
-                <label>Palavra-passe</label>
-                <input type="password" id="p" required>
+            <div class="form-group">
+                <label>Senha</label>
+                <input type="password" id="loginPass" required>
             </div>
-            <button type="submit">Criar Conta 2018</button>
+            <button type="submit" class="btn">Conectar</button>
         </form>
+        <div class="switch-form">
+            Não tem uma conta? <a onclick="toggleForm('register')">Criar Conta</a>
+        </div>
+    </div>
+
+    <div class="container" id="registerBox" style="display: none;">
+        <h2>Criar Nova Conta</h2>
+        <div class="message error" id="registerError"></div>
+        <div class="message success" id="registerSuccess"></div>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Escolha um Usuário</label>
+                <input type="text" id="regUser" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>Escolha uma Senha</label>
+                <input type="password" id="regPass" required>
+            </div>
+            <button type="submit" class="btn" style="background: linear-gradient(90deg, #10b981, #059669);">Registrar</button>
+        </form>
+        <div class="switch-form">
+            Já possui cadastro? <a onclick="toggleForm('login')">Fazer Login</a>
+        </div>
     </div>
 
     <script>
-        async function enviar(e) {
-            e.preventDefault();
-            const username = document.getElementById('u').value;
-            const password = document.getElementById('p').value;
-            const ok = document.getElementById('ok');
-            const err = document.getElementById('err');
-
-            ok.style.display = 'none';
-            err.style.display = 'none';
-
-            try {
-                const r = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const res = await r.json();
-
-                if (r.ok) {
-                    ok.style.display = 'block';
-                    document.querySelector('form').reset();
-                } else {
-                    err.innerText = "Erro: " + (res.error || "Tente novamente.");
-                    err.style.display = 'block';
-                }
-            } catch (x) {
-                err.innerText = "Erro crítico de ligação com a Vercel.";
-                err.style.display = 'block';
+        function toggleForm(type) {
+            const lBox = document.getElementById('loginBox');
+            const rBox = document.getElementById('registerBox');
+            
+            if(type === 'register') {
+                lBox.style.display = 'none';
+                rBox.style.display = 'block';
+            } else {
+                rBox.style.display = 'none';
+                lBox.style.display = 'block';
             }
         }
+
+        // Sistema de Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('loginUser').value;
+            const p = document.getElementById('loginPass').value;
+            const errDiv = document.getElementById('loginError');
+            errDiv.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.error || 'Erro ao logar');
+                
+                alert('Login efetuado! Redirecionando para o jogo...');
+                // Aqui você pode colocar a lógica para abrir o jogo ou injetar o bypass
+            } catch(err) {
+                errDiv.innerText = err.message;
+                errDiv.style.display = 'block';
+            }
+        });
+
+        // Sistema de Registro (Criar Conta por aqui mesmo)
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('regUser').value;
+            const p = document.getElementById('regPass').value;
+            const errDiv = document.getElementById('registerError');
+            const succDiv = document.getElementById('registerSuccess');
+            errDiv.style.display = 'none';
+            succDiv.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.error || 'Erro ao registrar');
+                
+                succDiv.innerText = "Conta criada com sucesso! Mude para a tela de login.";
+                succDiv.style.display = 'block';
+                document.getElementById('registerForm').reset();
+            } catch(err) {
+                errDiv.innerText = err.message;
+                errDiv.style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
