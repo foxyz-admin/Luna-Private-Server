@@ -1,11 +1,8 @@
 {
   "name": "luna-private-server",
   "version": "1.0.0",
-  "main": "api/register.js",
+  "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^11.8.0"
-  },
-  "engines": {
-    "node": "18.x"
+    "firebase-admin": "^11.0.0"
   }
 }
