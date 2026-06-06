@@ -24,17 +24,34 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Use POST' });
 
   const { username, password } = req.body || {};
-  const cleanUser = (username || "").replace(/[\.\#\$\[\]]/g, "").toLowerCase();
+  if (!username) return res.status(400).json({ error: 'Username obrigatorio' });
+
+  const cleanUser = username.replace(/[\.\#\$\[\]]/g, "").toLowerCase();
 
   try {
     const ref = db.ref(`usuarios/${cleanUser}`);
     const snap = await ref.once('value');
-    if (!snap.exists()) return res.status(401).json({ error: 'Usuário incorreto.' });
+    if (!snap.exists()) return res.status(401).json({ error: 'Usuario nao encontrado.' });
 
     const user = snap.val();
     if (user.password !== password) return res.status(401).json({ error: 'Senha incorreta.' });
 
-    return res.status(200).json({ status: 'autorizado', bypass_retro: user.inventario });
+    return res.status(200).json({ 
+      status: 'autorizado', 
+      perfil: {
+        nome_colorido: true,
+        codigo_cor: "#FFCC00",
+        tag_perfil: "[VIP-2018]"
+      },
+      bypass_retro: {
+        temporada_restrita: "2018",
+        todos_passes_2018_liberados: true,
+        todas_skins_2018_liberadas: true,
+        lista_passes: user.inventario ? user.inventario.passes : ["Flor de Sakura", "Hip Hop"],
+        lista_skins: user.inventario ? user.inventario.skins : ["Calça Angelical Original", "Top Criminal Verde"],
+        personagens_liberados: ["Alok", "Kelly", "Hayato"]
+      }
+    });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
